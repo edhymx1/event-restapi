@@ -7,7 +7,9 @@ router.get('/', function (req, res, next) {
 });
 
 const guest = require('../modulos/invitados/guest');
+const user = require('../modulos/usuarios/usuarios');
 
 router.get('/v1/guest/', guest.listarInvitados);
+router.get('/v1/user/', user.listarUsuarios);
 
 module.exports = router;

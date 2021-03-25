@@ -15,6 +15,7 @@ const organizer = require('../modulos/arganizadores/organizador');
 router.get('/v1/guest/', guest.listarInvitados);
 router.post('/v1/guest/', guest.registrarInvitado);
 router.delete('/v1/guest/:guest_id', guest.eliminarInvitado);
+router.put('/v1/guest/', guest.editarInvitado);
 
 // rutas para usuarios
 router.get('/v1/user/', user.listarUsuarios);
@@ -24,5 +25,8 @@ router.get('/v1/status-assistance/', statusAssistance.listarStatusAssistance);
 
 //rutas para organizadores
 router.get('/v1/organizer/', organizer.listarOrganizadores);
+router.post('/v1/organizer/', organizer.registrarOrganizador);
+router.delete('/v1/organizer/:organizer_id', organizer.eliminarOrganizador);
+router.put('/v1/organizer/', organizer.editarOrganizador);
 
 module.exports = router;

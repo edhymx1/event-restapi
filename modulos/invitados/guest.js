@@ -5,7 +5,7 @@ async function listarInvitados(req, res, next) {
         const result = await db.any('SELECT * FROM guest');
         res.json({ status: 'ok', result, message: 'Consulta de invitados exitosa' });
     } catch (error) {
-        next(error);
+        res.json({ status: 'error', result: null, message: error });
     }
 }
 
@@ -38,10 +38,14 @@ async function eliminarInvitado(req, res, next) {
 async function editarInvitado(req, res, next) {
     try {
         const { name, last_name, user_id } = req.body;
-        await db.none('UPDATE guest SET name = $1, last_name = $2 WHERE guest_id = $3', [name, last_name, user_id]);
+        const { rowCount } = await db.result('UPDATE guest SET name = $1, last_name = $2 WHERE guest_id = $3', [
+            name,
+            last_name,
+            user_id,
+        ]);
         res.json({
             status: 'ok',
-            message: 'Invitado actualizado con exito',
+            message: rowCount > 0 ? 'Invitado actualizado con exito' : 'El organizador no existe',
             result: null,
         });
     } catch (error) {

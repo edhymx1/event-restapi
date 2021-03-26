@@ -40,12 +40,24 @@ async function eliminarOrganizador(req, res, next) {
 async function editarOrganizador(req, res, next) {
     try {
         const { name, organizer_id } = req.body;
-        await db.none('UPDATE organizer SET name = $1 WHERE organizer_id = $2', [name, organizer_id]);
-        res.json({
-            status: 'ok',
-            message: 'Organizador actualizado con exito',
-            result: null,
-        });
+        const { rowCount } = await db.result('UPDATE organizer SET name = $1 WHERE organizer_id = $2', [
+            name,
+            organizer_id,
+        ]);
+
+        if (rowCount > 0) {
+            res.json({
+                status: 'ok',
+                message: 'Organizador actualizado con exito',
+                result: null,
+            });
+        } else {
+            res.json({
+                status: 'error',
+                message: 'El organizador no existe',
+                result: null,
+            });
+        }
     } catch (error) {
         res.json({ status: 'error', result: null, message: error });
     }
